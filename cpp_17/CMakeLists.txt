@@ -11,7 +11,9 @@ include_directories(include)
 # source flies
 file(GLOB MISCELLANEOUS_FILE src/miscellaneous.cpp src/miscellaneous2.cpp)
 file(GLOB TEMPLATE_FILE src/template.cpp)
+file(GLOB LAMBDA_FILE src/lambda.cpp)
 
 # create executables
 add_executable(miscellaneous ${MISCELLANEOUS_FILE})
 add_executable(templateVariadic ${TEMPLATE_FILE})
+add_executable(lambda ${LAMBDA_FILE})

@@ -11,19 +11,19 @@
 
 #include <bits/stdc++.h>
 
-// preprocessor predicate for header testing
-#if __has_include(<invalid_header.h>)
-#elif __has_include("common.h")
-#include <common.h>
-#else
-int32_t gExternFlag = -1;
-#endif
-
 using std::cout;
 using std::endl;
 
-void Miscellaneous2() {
-  cout << "\n=== global ===\n";
-  { cout << "Global flag: " << gExternFlag; }
+auto Add = [](int a, int b) { return (a + b); };
+
+constexpr int32_t gNum = Add(5, 6);
+
+int32_t main(const int32_t argc, const char **argv) {
+  cout << "\n=== constexpr lambda ===\n";
+  { cout << gNum << endl; }
   cout << endl;
+
+  cout << "=== Finish ===" << endl << endl;
+
+  return 0;
 }
