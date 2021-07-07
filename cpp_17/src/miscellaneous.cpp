@@ -54,7 +54,7 @@ int32_t main(const int32_t argc, const char** argv)
   }
   cout << endl;
 
-  cout << "\n=== initialise inside if ===\n";
+  cout << "\n=== selection statements with initializers ===\n";
   {
     if (time_t now = time(0); (now % 3) == 1)
       cout << "odd second1: " << now << endl;
