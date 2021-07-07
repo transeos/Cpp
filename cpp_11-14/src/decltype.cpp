@@ -16,36 +16,34 @@ using std::endl;
 using std::vector;
 
 // can only be used for constexpr
-template <typename A, typename B> 
-auto FindMin(const A& a, const B& b) -> decltype(a < b ? a : b) 
-{
+template <typename A, typename B>
+auto FindMin(const A &a, const B &b) -> decltype(a < b ? a : b) {
   return ((a < b) ? a : b);
 }
 
-class Base
-{
-  private:
-    int32_t _val;
+class Base {
+private:
+  int32_t _val;
 
-  public:
-    Base(int32_t val) : _val(val) { printf("Base(%p, val = %d) created\n", this, _val); }
-    ~Base() { printf("Base(%p, val = %d) destroyed\n", this, _val); }
+public:
+  Base(int32_t val) : _val(val) {
+    printf("Base(%p, val = %d) created\n", this, _val);
+  }
+  ~Base() { printf("Base(%p, val = %d) destroyed\n", this, _val); }
 
-    int32_t GetVal() const { return _val; }
-    void SetVal(int32_t val) { _val = val; }
+  int32_t GetVal() const { return _val; }
+  void SetVal(int32_t val) { _val = val; }
 
-    float FloatVal;
+  float FloatVal;
 };
 
-class Derived : public Base
-{
-  public:
-    Derived(int32_t val) : Base(val) { }
-    ~Derived() { }
+class Derived : public Base {
+public:
+  Derived(int32_t val) : Base(val) {}
+  ~Derived() {}
 };
 
-int32_t main(const int32_t argc, const char** argv)
-{
+int32_t main(const int32_t argc, const char **argv) {
   cout << "\n=== decltype ===\n";
   {
     cout << FindMin(4, 3.44) << endl;
@@ -61,7 +59,7 @@ int32_t main(const int32_t argc, const char** argv)
   {
     cout << endl;
     {
-      vector<Base> arr = { Base(1) };
+      vector<Base> arr = {Base(1)};
       arr[0].SetVal(2);
       cout << endl;
     }
@@ -76,22 +74,22 @@ int32_t main(const int32_t argc, const char** argv)
     }
     cout << endl;
     {
-      vector<Base> arr = { Base(5) };
+      vector<Base> arr = {Base(5)};
       for (auto b : arr)
         b.SetVal(6);
       cout << endl;
     }
     cout << endl;
     {
-      vector<Base> arr = { Base(7) };
-      for (auto& b : arr)
+      vector<Base> arr = {Base(7)};
+      for (auto &b : arr)
         b.SetVal(8);
       cout << endl;
     }
     cout << endl;
     {
-      vector<Base> arr = { Base(9) };
-      for (const auto& b : arr) {
+      vector<Base> arr = {Base(9)};
+      for (const auto &b : arr) {
         // b.SetVal(10);  // compile error
       }
       cout << endl;

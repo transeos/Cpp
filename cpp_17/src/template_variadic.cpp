@@ -13,30 +13,25 @@
 
 using std::cout;
 using std::endl;
-using std::string;
 using std::forward;
+using std::string;
 
-template<typename T0>
-void PrintT(T0&& t0) { cout << t0; }
+template <typename T0> void PrintT(T0 &&t0) { cout << t0; }
 
-template<typename T0, typename... Ts>
-void PrintT(T0&& t0, Ts&&... ts)
-{
+template <typename T0, typename... Ts> void PrintT(T0 &&t0, Ts &&... ts) {
   PrintT(forward<T0>(t0));
 
-  if constexpr (sizeof...(ts))
-  {
+  if constexpr (sizeof...(ts)) {
     cout << ", ";
     PrintT(forward<Ts>(ts)...);
   }
 }
 
-struct Person
-{
-  Person(const uint32_t id, const string& name, uint16_t age) : _id(id), _name(name), _age(age) { }
+struct Person {
+  Person(const uint32_t id, const string &name, uint16_t age)
+      : _id(id), _name(name), _age(age) {}
 
-  template<std::size_t I> auto& Get()
-  {
+  template <std::size_t I> auto &Get() {
     if constexpr (I == 0)
       return _id;
     else if constexpr (I == 1)
@@ -44,14 +39,14 @@ struct Person
     else if constexpr (I == 2)
       return _age;
   }
- 
- private:
+
+private:
   uint32_t _id;
   string _name;
   uint16_t _age;
 };
 
-int32_t main(const int32_t argc, const char** argv) {
+int32_t main(const int32_t argc, const char **argv) {
   cout << "\n=== complie time conditional statement ===\n";
   {
     cout << "=== variadic template function ===\n";

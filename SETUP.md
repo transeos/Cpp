@@ -1,5 +1,12 @@
 # How to Setup #
 
+# prerequisites
+sudo apt-get install cmake
+sudo apt-get install clang
+
+# copy hook
+cp hook/pre-commit .git/hooks
+
 # go inside cpp directories
 mkdir build
 cd build

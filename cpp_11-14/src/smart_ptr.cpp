@@ -13,104 +13,91 @@
 
 using std::cout;
 using std::endl;
-using std::vector;
-using std::unique_ptr;
 using std::shared_ptr;
+using std::unique_ptr;
+using std::vector;
 using std::weak_ptr;
 
-class Base
-{
-  private:
-    int32_t _val;
+class Base {
+private:
+  int32_t _val;
 
-    unique_ptr<Base> ub_;
-    shared_ptr<Base> sb_;
-    weak_ptr<Base> wb_;
+  unique_ptr<Base> ub_;
+  shared_ptr<Base> sb_;
+  weak_ptr<Base> wb_;
 
-  protected:
-    bool printVal;
+protected:
+  bool printVal;
 
-  public:
-    Base(int32_t val = 1) : _val(val)
-    {
-      printf("Base(%p, val = %d) created\n", this, _val);
-      printVal = true;
-    }
-    virtual ~Base()
-    {
-      if (printVal)
-        printf("Base(%p, val = %d) destroyed\n", this, get());
-      else
-        printf("Base(%p) destroyed\n", this);
-    }
+public:
+  Base(int32_t val = 1) : _val(val) {
+    printf("Base(%p, val = %d) created\n", this, _val);
+    printVal = true;
+  }
+  virtual ~Base() {
+    if (printVal)
+      printf("Base(%p, val = %d) destroyed\n", this, get());
+    else
+      printf("Base(%p) destroyed\n", this);
+  }
 
-    virtual int32_t get() const { return _val; }
+  virtual int32_t get() const { return _val; }
 
-    int32_t GetUVal(int32_t val)
-    {
-      if (!ub_)
-        ub_.reset(new Base(val));
-      return ub_->get();
-    }
+  int32_t GetUVal(int32_t val) {
+    if (!ub_)
+      ub_.reset(new Base(val));
+    return ub_->get();
+  }
 
-    void setSB(decltype(sb_) sb) { sb_ = sb; }
+  void setSB(decltype(sb_) sb) { sb_ = sb; }
 
-    void setWB(decltype(sb_) sb) { wb_ = sb; }
-    
-    auto getUB() -> decltype(ub_)& { return ub_; }
-    auto getUBPtr() -> decltype(&ub_) { return &ub_; }
+  void setWB(decltype(sb_) sb) { wb_ = sb; }
 
-    static void sCustomDeleter(Base* b)
-    {
-      b->printVal = false;
-      cout << "Base::sCustomDeleter called: val = " << b->get() << endl;
-      delete b;
-    }
+  auto getUB() -> decltype(ub_) & { return ub_; }
+  auto getUBPtr() -> decltype(&ub_) { return &ub_; }
 
-    static void sNoDelete(Base* b)
-    {
-      // Do nothing so that that the object doesn't get deleted.
-    }
+  static void sCustomDeleter(Base *b) {
+    b->printVal = false;
+    cout << "Base::sCustomDeleter called: val = " << b->get() << endl;
+    delete b;
+  }
+
+  static void sNoDelete(Base *b) {
+    // Do nothing so that that the object doesn't get deleted.
+  }
 };
 
-class Derived : public Base 
-{
-  private:
-    unique_ptr<int32_t> _dVal;
+class Derived : public Base {
+private:
+  unique_ptr<int32_t> _dVal;
 
-  public:
-    Derived(int32_t val = 1) : Base(val - 1) , _dVal(new int32_t(val))
-    {
-      printf("Derived(%p, val = %d) created\n", this, *_dVal);
-    }
-    virtual ~Derived()
-    {
-      if (printVal)
-        printf("Derived(%p, val = %d) destroyed\n", this, get());
-      else
-        printf("Derived(%p) destroyed\n", this);
-    }
+public:
+  Derived(int32_t val = 1) : Base(val - 1), _dVal(new int32_t(val)) {
+    printf("Derived(%p, val = %d) created\n", this, *_dVal);
+  }
+  virtual ~Derived() {
+    if (printVal)
+      printf("Derived(%p, val = %d) destroyed\n", this, get());
+    else
+      printf("Derived(%p) destroyed\n", this);
+  }
 
-    virtual int32_t get() const override { return (_dVal ? *_dVal : -1); }
+  virtual int32_t get() const override { return (_dVal ? *_dVal : -1); }
 };
 
-template<typename T, typename U>
-void ComparePtrs(T& p1, U& p2, const char* s1, const char* s2)
-{
+template <typename T, typename U>
+void ComparePtrs(T &p1, U &p2, const char *s1, const char *s2) {
   if (p1 == p2)
     printf("%s and %s are same\n", s1, s2);
   else
     printf("%s and %s are different\n", s1, s2);
 }
 
-template<typename T>
-void PrintType(T& p1, const char* s)
-{
+template <typename T> void PrintType(T &p1, const char *s) {
   cout << "Type of " << s << " " << typeid(T).name() << endl;
 }
 
-int32_t main(const int32_t argc, const char** argv)
-{
+int32_t main(const int32_t argc, const char **argv) {
   cout << endl << "=== unique_ptr ===" << endl;
   {
     unique_ptr<Base> p1;
@@ -125,20 +112,17 @@ int32_t main(const int32_t argc, const char** argv)
     PrintType(p3, "p3");
     cout << p3->get() << endl;
 
-    auto& p4 = p2->getUB();
+    auto &p4 = p2->getUB();
     cout << p4->get() << endl;
     cout << p4.get() << endl;
 
-    unique_ptr<Base, void(*)(Base*)> p5(new Base(3), Base::sCustomDeleter);
+    unique_ptr<Base, void (*)(Base *)> p5(new Base(3), Base::sCustomDeleter);
     p5.reset(0);
     cout << endl;
     p2.reset(0);
 
-    unique_ptr<Base, void(*)(Base*)> p6(new Base(4),
-                                        [](Base* b)
-                                        {
-                                          cout << " lambda delete called\n";
-                                        });
+    unique_ptr<Base, void (*)(Base *)> p6(
+        new Base(4), [](Base *b) { cout << " lambda delete called\n"; });
     cout << "p5 = " << sizeof(p5) << ", p6 = " << sizeof(p6) << endl;
   }
 
@@ -147,7 +131,9 @@ int32_t main(const int32_t argc, const char** argv)
     {
       shared_ptr<Derived> sp1(new Derived(5), Base::sCustomDeleter);
       shared_ptr<Derived> sp2 = sp1;
-      cout << endl << "sp1 : " << sp1 << "   " << "sp1.get() : " << sp1.get() << endl;
+      cout << endl
+           << "sp1 : " << sp1 << "   "
+           << "sp1.get() : " << sp1.get() << endl;
     }
     cout << endl;
     {

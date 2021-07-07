@@ -12,7 +12,6 @@
 #include <iostream>
 
 class Basic {
-  public:
-    template <typename T>
-    static void PrT(const T& val);
+public:
+  template <typename T> static void PrT(const T &val);
 };
