@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS "-ggdb3 -DDEBUG -pthread -std=c++0x -fno-inline")
 include_directories(include)
 
 # source flies
-file(GLOB MISCELLANEOUS_FILE src/miscellaneous.cpp)
+file(GLOB MISCELLANEOUS_FILE src/miscellaneous.cpp src/miscellaneous2.cpp)
 file(GLOB TEMPLATE_FILE src/template.cpp)
 
 # create executables

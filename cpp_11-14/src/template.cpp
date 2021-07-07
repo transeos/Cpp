@@ -13,6 +13,7 @@
 
 #include "template_variadic.h"
 
+using std::array;
 using std::cout;
 using std::endl;
 using std::tuple;
@@ -37,7 +38,7 @@ using IntStruct = Constant<int, 2048>;
 
 template <typename T = int32_t, size_t NUM = 1> class Base {
 private:
-  T _vals[NUM];
+  array<T, NUM> _vals;
 
 protected:
   bool _printVal;

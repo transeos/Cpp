@@ -11,6 +11,8 @@
 
 #include <bits/stdc++.h>
 
+#include "common.h"
+
 using std::array;
 using std::cout;
 using std::endl;
@@ -63,6 +65,11 @@ int32_t main(const int32_t argc, const char **argv) {
       cout << "odd second2: " << now << endl;
   }
   cout << endl;
+
+  {
+    gExternFlag *= 2;
+    Miscellaneous2();
+  }
 
   cout << "=== Finish ===" << endl << endl;
 

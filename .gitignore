@@ -31,6 +31,9 @@
 *.out
 *.app
 
+# temp files
+*.swp
+
 # Folders
 .idea
 cmake-build-debug
