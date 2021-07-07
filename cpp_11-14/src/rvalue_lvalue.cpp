@@ -83,6 +83,15 @@ public:
   virtual int32_t GetVal() const override { return _dVal; }
 };
 
+template <typename T> void IncrementT(T &t) { t++; }
+template <typename T> void IncrementT(T &&t) {
+  IncrementT(t);
+  cout << "[rvalue] " << t << endl;
+}
+template <typename T> void IncrementWarp(T &&t) {
+  IncrementT(std::forward<T>(t));
+}
+
 int32_t main(const int32_t argc, const char **argv) {
   cout << endl << "=== rvalue and lvalue ===" << endl;
   {
@@ -180,8 +189,9 @@ int32_t main(const int32_t argc, const char **argv) {
     if (IS_LVALUE(vector<int32_t>(25)[0]))
       cout << "vector<int32_t>(25)[0] is lvalue\n";
   }
-
   cout << endl;
+
+  cout << "=== unique_ptr === " << endl;
   {
     unique_ptr<Base> ub1(new Base(7));
     {
@@ -196,7 +206,18 @@ int32_t main(const int32_t argc, const char **argv) {
     unique_ptr<Base> ub3(new Base(10));
     cout << endl;
   }
+  cout << endl;
 
-  cout << endl << "=== Finish ===" << endl << endl;
+  cout << "=== std::forward === " << endl;
+  {
+    int32_t num = 1;
+    IncrementWarp(num);
+    cout << num << endl;
+
+    IncrementWarp(3);
+  }
+  cout << endl;
+
+  cout << "=== Finish ===" << endl << endl;
   return 0;
 }

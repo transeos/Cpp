@@ -16,16 +16,20 @@ using std::endl;
 using std::forward;
 using std::string;
 
-template <typename T0> void PrintT(T0 &&t0) { cout << t0; }
-
 template <typename T0, typename... Ts> void PrintT(T0 &&t0, Ts &&... ts) {
-  PrintT(forward<T0>(t0));
+  cout << t0;
 
   if constexpr (sizeof...(ts)) {
     cout << ", ";
     PrintT(forward<Ts>(ts)...);
   }
 }
+
+template <typename... Ts> void PrintFold(Ts &&... ts) {
+  (cout << "[fold] " << ... << std::forward<Ts>(ts)) << endl;
+}
+
+template <typename... Ns> auto Sum(Ns &&... ns) { return (ns + ... + 0); }
 
 struct Person {
   Person(const uint32_t id, const string &name, uint16_t age)
@@ -58,9 +62,11 @@ int32_t main(const int32_t argc, const char **argv) {
 
       PrintT(a, b, c);
       cout << endl;
+      PrintFold(a, b, c);
 
       PrintT(d);
       cout << endl;
+      PrintFold(d);
     }
     cout << endl;
 
@@ -68,6 +74,16 @@ int32_t main(const int32_t argc, const char **argv) {
     {
       Person p1(1, "nameless", 18);
       cout << p1.Get<0>() << ", " << p1.Get<1>() << ", " << p1.Get<2>() << endl;
+    }
+    cout << endl;
+
+    cout << "=== fold expression ===\n";
+    {
+      int a = 1;
+      int b = 1;
+      double c = 1.1;
+      cout << Sum(a, c, b, 1) << endl;
+      cout << Sum() << endl;
     }
     cout << endl;
   }
