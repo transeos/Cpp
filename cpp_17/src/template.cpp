@@ -15,6 +15,8 @@ using std::cout;
 using std::endl;
 using std::forward;
 using std::string;
+using std::string_view;
+using std::tuple;
 
 template <typename T0, typename... Ts> void PrintT(T0 &&t0, Ts &&... ts) {
   cout << t0;
@@ -50,6 +52,19 @@ private:
   uint16_t _age;
 };
 
+template <typename T> struct Name {
+  Name(T first, T last) : First(first), Last(last) {}
+
+  T First;
+  T Last;
+};
+
+Name(const char *)->Name<string_view>;
+
+template <auto v> struct Constant { static constexpr auto InitValue = v; };
+
+using IntStruct = Constant<2048>;
+
 int32_t main(const int32_t argc, const char **argv) {
   cout << "\n=== complie time conditional statement ===\n";
   {
@@ -76,17 +91,42 @@ int32_t main(const int32_t argc, const char **argv) {
       cout << p1.Get<0>() << ", " << p1.Get<1>() << ", " << p1.Get<2>() << endl;
     }
     cout << endl;
+  }
 
-    cout << "=== fold expression ===\n";
+  cout << "=== fold expression ===\n";
+  {
+    int a = 1;
+    int b = 1;
+    double c = 1.1;
+    cout << Sum(a, c, b, 1) << endl;
+    cout << Sum() << endl;
+  }
+  cout << endl;
+
+  cout << "=== class template deduction ===\n";
+  {
+    cout << "=== with tuple ===\n";
     {
-      int a = 1;
-      int b = 1;
-      double c = 1.1;
-      cout << Sum(a, c, b, 1) << endl;
-      cout << Sum() << endl;
+      auto t = tuple(1, 1.1);
+      cout << std::get<0>(t) << ", " << std::get<1>(t) << endl;
     }
     cout << endl;
+
+    cout << "=== char const* to string_view ===\n";
+    {
+      Name n1("John", "Smith"); // string_view
+
+      string first = n1.First;
+      string last = n1.Last;
+
+      Name n2(first, last); // string
+    }
   }
+  cout << endl;
+
+  cout << "\n=== template auto ===\n";
+  { cout << IntStruct::InitValue << endl; }
+  cout << endl;
 
   cout << "=== Finish ===" << endl << endl;
   return 0;

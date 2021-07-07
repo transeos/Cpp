@@ -29,6 +29,12 @@ bool IsLittleEndian() {
 
 template <typename T> void Basic::PrT(const T &val) { cout << val << endl; }
 
+template <typename T, T v> struct Constant {
+  static constexpr T InitValue = v;
+};
+
+using IntStruct = Constant<int, 2048>;
+
 template <typename T = int32_t, size_t NUM = 1> class Base {
 private:
   T _vals[NUM];
@@ -267,7 +273,15 @@ int32_t main(const int32_t argc, const char **argv) {
     b.PrT<>(1);
     b.PrT<const char *>("test");
   }
+  cout << endl;
 
-  cout << endl << "=== Finish ===" << endl << endl;
+  cout << "\n=== initalization (meta programming) ===\n";
+  {
+    IntStruct num;
+    cout << num.InitValue << endl;
+  }
+  cout << endl;
+
+  cout << "=== Finish ===" << endl << endl;
   return 0;
 }

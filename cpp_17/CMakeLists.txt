@@ -10,8 +10,8 @@ include_directories(include)
 
 # source flies
 file(GLOB MISCELLANEOUS_FILE src/miscellaneous.cpp)
-file(GLOB TEMPLATE_VARIADIC_FILE src/template_variadic.cpp)
+file(GLOB TEMPLATE_FILE src/template.cpp)
 
 # create executables
 add_executable(miscellaneous ${MISCELLANEOUS_FILE})
-add_executable(templateVariadic ${TEMPLATE_VARIADIC_FILE})
+add_executable(templateVariadic ${TEMPLATE_FILE})
