@@ -3,6 +3,8 @@
 # prerequisites
 sudo apt-get install cmake
 sudo apt-get install clang
+sudo apt install libtbb-dev
+sudo apt install g++-10
 
 # copy hook
 cp hook/pre-commit .git/hooks
