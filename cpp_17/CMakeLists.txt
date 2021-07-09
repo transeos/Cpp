@@ -15,6 +15,7 @@ file(GLOB TEMPLATE_FILE src/template.cpp)
 file(GLOB LAMBDA_FILE src/lambda.cpp)
 file(GLOB LIBRARY_MISCELLANEOUS_FILE src/library_miscellaneous.cpp)
 file(GLOB FILESYSTEM_FILE src/filesystem.cpp)
+file(GLOB STL_FILE src/stl.cpp)
 
 file(GLOB PARALLEL_FILE src/parallel.cpp)
 
@@ -24,6 +25,7 @@ add_executable(templateVariadic ${TEMPLATE_FILE})
 add_executable(lambda ${LAMBDA_FILE})
 add_executable(library_miscellaneous ${LIBRARY_MISCELLANEOUS_FILE})
 add_executable(filesystem ${FILESYSTEM_FILE})
+add_executable(stl ${STL_FILE})
 
 add_executable(parallel ${PARALLEL_FILE})
 target_link_libraries(parallel ${TBB_IMPORTED_TARGETS})

@@ -65,6 +65,12 @@ template <auto v> struct Constant { static constexpr auto InitValue = v; };
 
 using IntStruct = Constant<2048>;
 
+template <typename T>
+typename std::enable_if_t<std::is_integral_v<T>, T> SquareRoot(T t) {
+  cout << "[integral] ";
+  return sqrt(t);
+}
+
 int32_t main(const int32_t argc, const char **argv) {
   cout << "\n=== complie time conditional statement ===\n";
   {
@@ -126,6 +132,13 @@ int32_t main(const int32_t argc, const char **argv) {
 
   cout << "\n=== template auto ===\n";
   { cout << IntStruct::InitValue << endl; }
+  cout << endl;
+
+  cout << "\n=== variable templates for meta-functions ===\n";
+  {
+    int num1 = 4;
+    cout << SquareRoot(num1) << endl;
+  }
   cout << endl;
 
   cout << "=== Finish ===" << endl << endl;
