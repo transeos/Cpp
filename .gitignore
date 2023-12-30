@@ -163,6 +163,9 @@ ipch/
 # Visual Studio Trace Files
 *.e2e
 
+# VS code
+.vscode
+
 # TFS 2012 Local Workspace
 $tf/
 
