@@ -3,5 +3,6 @@
 
 int main() {
     hello();
+    sampleParallelSort();
     return 0;
 }
